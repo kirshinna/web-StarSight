@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background: #0b0c1b;
+  background: #003153;
   color: #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -42,4 +42,26 @@ button:hover {
   background-color: #1a1b2b;
   width: 100%;
   max-width: 500px;
+}
+
+.accordion {
+  background-color: #eee;
+  cursor: pointer;
+  padding: 10px 15px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  transition: background-color 0.2s;
+}
+
+.accordion:hover {
+  background-color: #ddd;
+}
+
+.panel {
+  padding: 0 15px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
 }
