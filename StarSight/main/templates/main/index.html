@@ -1,3 +1,4 @@
+
 {% extends 'main/layout.html' %}
 
 {% block title %}StarSight – Проверка условий для наблюдений{% endblock %}
@@ -19,15 +20,23 @@
 
     <p>{{ result }}</p>
 
-    {% if days %}
-    <ul>
-        {% for day in days %}
-            <li>
-                {{ day.datetime }} — облачность: {{ day.cloudcover }}%, фаза Луны: {{ day.moonphase }}
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
+    {% if heatmap_img %}
+    <h3>Тепловая карта качества ночи</h3>
+    <img src="data:image/png;base64,{{ heatmap_img }}" alt="Тепловая карта">
+    {% endif %}
 
+
+    {% if days %}
+    <button class="accordion">Показать подробные данные</button>
+    <div class="panel">
+        <ul>
+            {% for day in days %}
+                <li>
+                    {{ day.datetime }} — облачность: {{ day.cloudcover }}%, фаза Луны: {{ day.moonphase }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 
 {% endblock %}
