@@ -5,18 +5,29 @@
 {% block content %}
     <h1>StarSight</h1>
     <p>Проверка условий для наблюдения за звёздами и Луной</p>
+    <form method="get">
+        <input type="text" name="city" placeholder="Город" required>
+        <p>
+            <label>С даты:</label>
+            <input type="date" name="start" required>
 
-    <form method="GET" action="{% url 'index' %}">
-        <input type="text" name="city" placeholder="Введите город" required>
-        <button type="submit">Проверить</button>
+            <label>По дату:</label>
+            <input type="date" name="end" required>
+        </p>
+        <button type="submit">Показать</button>
     </form>
 
-    {% if result %}
-        <div id="result">
-            {{ result }}
-        </div>
-    {% endif %}
+    <p>{{ result }}</p>
 
-    <script>
-    </script>
+    {% if days %}
+    <ul>
+        {% for day in days %}
+            <li>
+                {{ day.datetime }} — облачность: {{ day.cloudcover }}%, фаза Луны: {{ day.moonphase }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
 {% endblock %}
