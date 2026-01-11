@@ -67,13 +67,17 @@ def generate_hourly_heatmap(df):
 def calculate_observation_score(day):
     clouds = day.get("cloudcover", 100)
     moon = day.get("moonphase", 0.5)
+    visible = day.get("visibility", 5)
+    humidity = day.get("humidity", 50)
 
-    cloud_penalty = clouds * 0.7
-    moon_penalty = moon * 100 * 0.6
+    K_transp = 0.7 + (visible / 20) - (humidity / 400)
+    k_clouds = 1 - (clouds / 100)**1.5
+    k_moon = 1 - (moon * 0.6)
 
-    score = (100 - cloud_penalty - moon_penalty) * 10
+    score = 100 * K_transp * k_clouds * k_moon
+
     if score < 0:
-        score = -1 * score
+        score = 0
     if score > 100:
         score = 100
 

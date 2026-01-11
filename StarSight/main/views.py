@@ -5,7 +5,7 @@ import requests
 
 API_KEY = 'VBPG6AVYZLFFBYEQVKJYWUUXM'
 def index(request):
-    return render(request, 'main/index.html')
+    return render(request, 'main/home.html')
 
 def weather_check(request):
     city = request.GET.get("city")
@@ -22,11 +22,11 @@ def weather_check(request):
             days = weather["days"]
             df = prepare_heatmap_matrix(days)
             heatmap_img = generate_hourly_heatmap(df)
-            result = f"Ночная карта {len(days)} дней готова"
+            result = f"Ночная карта {len(days)} дней."
         else:
             result = "Не удалось получить данные."
 
-    return render(request, "main/index.html", {
+    return render(request, "main/heatmap.html", {
         "result": result,
         "heatmap_img": heatmap_img,
         "days": days
@@ -49,4 +49,5 @@ def fetch_weather_data(city, api_key, start, end):
         return None
 
     return response.json()
+
 
