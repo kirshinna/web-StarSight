@@ -1,23 +1,35 @@
 {% extends 'main/layout.html' %}
 
-{% block title %}StarSight – Дневник наблюдений {% endblock %}
+{% block title %}StarSight – Дневник наблюдений{% endblock %}
 
 {% block content %}
 <h2>Дневник наблюдений</h2>
+
 <a href="{% url 'add_observation' %}">Добавить новую запись</a>
 
 <ul>
 {% for obs in observations %}
-    <li>
+    <li style="margin-bottom: 30px;">
         <strong>{{ obs.date }} — {{ obs.title }}</strong>
-        <p>{{ obs.description }}</p>
+
+        {% if obs.description %}
+            <p>{{ obs.description }}</p>
+        {% endif %}
+
         {% if obs.image %}
-            <img src="{{ obs.image.url }}" width="300">
+            <img src="{{ obs.image.url }}" width="300" style="display:block; margin-bottom:10px;">
+        {% endif %}
+
+        {% if obs.equipment %}
+            <p><strong>Оборудование:</strong> {{ obs.equipment }}</p>
+        {% endif %}
+
+        {% if obs.celestial_body %}
+            <p><strong>Наблюдаемый объект:</strong> {{ obs.celestial_body }}</p>
         {% endif %}
     </li>
 {% empty %}
     <p>Записей пока нет.</p>
 {% endfor %}
 </ul>
-
 {% endblock %}

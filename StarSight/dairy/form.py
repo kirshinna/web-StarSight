@@ -4,4 +4,4 @@ from .models import Observation
 class ObservationForm(forms.ModelForm):
     class Meta:
         model = Observation
-        fields = ['date', 'title', 'description', 'image']
+        fields = ['date', 'title', 'description', 'image', 'equipment', 'celestial_body']
