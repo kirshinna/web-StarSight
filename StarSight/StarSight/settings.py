@@ -2,14 +2,11 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Загружаем переменные окружения
 load_dotenv()
 
-# Пути
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Безопасность
-SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-secret-key")
+SECRET_KEY='django-insecure-zqkasd6updibfw5u%(-6#4y*_b338a7om*&$gixslc+hl1-%i1'
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["127.0.0.1", "kirshina.pythonanywhere.com"]
@@ -59,19 +56,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'StarSight.wsgi.application'
-
-# Database
+# settings.py
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.environ.get("MYSQL_DBNAME"),
-        "USER": os.environ.get("MYSQL_USER"),
-        "PASSWORD": os.environ.get("MYSQL_PASSWORD"),
-        "HOST": os.environ.get("MYSQL_HOST"),
-        "PORT": "3306",
-        "OPTIONS": {
-            "charset": "utf8mb4",
-        },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "kirshina$default",
+        'USER': 'kirshina',
+        'PASSWORD': 'V23-GDj-Wk2-6cx',
+        'HOST': 'kirshina.mysql.pythonanywhere-services.com',
     }
 }
 
