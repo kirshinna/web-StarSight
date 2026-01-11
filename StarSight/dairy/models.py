@@ -10,7 +10,7 @@ class Equipment(models.Model):
 
 class CelestialBody(models.Model):
     name = models.CharField(max_length=100)
-    body_type = models.CharField(max_length=50, blank=True)  # Луна, звезда, планета и т.д.
+    body_type = models.CharField(max_length=50, blank=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -23,10 +23,8 @@ class Observation(models.Model):
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to="observations/", blank=True, null=True)
 
-    # Один прибор на запись
     equipment = models.ForeignKey(Equipment, on_delete=models.SET_NULL, null=True, blank=True)
 
-    # Одно небесное тело на запись
     celestial_body = models.ForeignKey(CelestialBody, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

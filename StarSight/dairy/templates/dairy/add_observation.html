@@ -1,39 +1,20 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 
-{% block title %}StarSight – Дневник наблюдений{% endblock %}
+{% block title %}StarSight – Добавить наблюдение{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'dairy/css/cards.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2 class="page-title">Дневник наблюдений</h2>
+<h2 class="page-title">Добавить новую запись</h2>
 
-<a href="{% url 'add_observation' %}" class="btn-add">➕ Добавить новую запись</a>
+<form method="POST" enctype="multipart/form-data" class="observation-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-add">Сохранить</button>
+</form>
 
-<div class="observations-list">
-    {% for obs in observations %}
-        <div class="observation-card">
-            <div class="obs-header">
-                <span class="obs-date">{{ obs.date }}</span> —
-                <strong class="obs-title">{{ obs.title }}</strong>
-            </div>
-
-            {% if obs.description %}
-                <p class="obs-description">{{ obs.description }}</p>
-            {% endif %}
-
-            {% if obs.image %}
-                <img src="{{ obs.image.url }}" alt="{{ obs.title }}" class="obs-image">
-            {% endif %}
-
-            <div class="obs-details">
-                {% if obs.equipment %}
-                    <p><strong>Оборудование:</strong> {{ obs.equipment }}</p>
-                {% endif %}
-                {% if obs.celestial_body %}
-                    <p><strong>Наблюдаемый объект:</strong> {{ obs.celestial_body }}</p>
-                {% endif %}
-            </div>
-        </div>
-    {% empty %}
-        <p>Записей пока нет.</p>
-    {% endfor %}
-</div>
+<a href="{% url 'observations_list' %}" class="btn-back">← Назад к дневнику</a>
 {% endblock %}
