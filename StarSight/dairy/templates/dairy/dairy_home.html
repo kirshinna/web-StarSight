@@ -1,6 +1,11 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 
 {% block title %}StarSight – Дневник наблюдений{% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'dairy/css/dairy.css' %}">
+{% endblock %}
 
 {% block content %}
 <h2>Дневник наблюдений</h2>
