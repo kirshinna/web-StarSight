@@ -1,53 +1,66 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 
 {% block title %}StarSight – Проверка условий для наблюдений{% endblock %}
 
+{% block link %}
+<link rel="stylesheet" href="{% static 'main/css/heatmap.css' %}">
+{% endblock %}
+
 {% block content %}
-    <h1>StarSight</h1>
-    <p>Проверка условий для наблюдения за звёздами и Луной</p>
-    <form method="get">
+<h1>StarSight</h1>
+<p class="page-description">
+    Этот график показывает <strong>качество ночного неба</strong> для наблюдений.
+    Цветовая шкала отражает условия: <span class="legend excellent">зелёный</span> — отличная видимость, <span class="legend good">жёлтый</span> — средняя, <span class="legend poor">красный</span> — плохая.
+    Используйте календарь, чтобы выбрать период и город, и увидеть лучшее время для наблюдений.
+</p>
+
+<form method="post" class="weather-form">
+    {% csrf_token %}
+    <div class="form-group">
         <input type="text" name="city" placeholder="Город" required>
-        <p>
-            <label>С даты:</label>
-            <input type="date" name="start" required>
+    </div>
+    <div class="form-group dates">
+        <label>С даты:</label>
+        <input type="date" name="start" required>
+        <label>По дату:</label>
+        <input type="date" name="end" required>
+    </div>
+    <button type="submit" class="btn-submit">Показать</button>
+</form>
 
-            <label>По дату:</label>
-            <input type="date" name="end" required>
-        </p>
-        <button type="submit">Показать</button>
-    </form>
+{% if result %}
+<p>{{ result }}</p>
+{% endif %}
 
-    <p>{{ result }}</p>
-
-    {% if heatmap_img %}
+{% if heatmap_img %}
+<div class="heatmap-container">
     <h3>Тепловая карта качества ночи</h3>
     <img src="data:image/png;base64,{{ heatmap_img }}" alt="Тепловая карта">
-    {% endif %}
+</div>
+{% endif %}
 
-    {% if days %}
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                    Показать подробные данные ({{ days|length }} дней)
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    <ul class="list-unstyled">
-                        {% for day in days %}
-                            <li class="mb-2">
-                                <strong>{{ day.datetime }}</strong> —
-                                облачность: {{ day.cloudcover }}%,
-                                фаза Луны: {{ day.moonphase }},
-                                видимость: {{ day.visibility }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+{% if days %}
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                Показать подробные данные ({{ days|length }} дней)
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <ul class="list-unstyled">
+                    {% for day in days %}
+                        <li class="mb-2">
+                            <strong>{{ day.datetime }}</strong> — облачность: {{ day.cloudcover }}%, фаза Луны: {{ day.moonphase }}, видимость: {{ day.visibility }}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
-    {% endif %}
+</div>
+{% endif %}
 
 {% endblock %}

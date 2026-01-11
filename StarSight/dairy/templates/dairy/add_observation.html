@@ -1,10 +1,20 @@
 {% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}StarSight – Добавить наблюдение{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'dairy/css/cards.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>Добавить запись наблюдений</h2>
-<form method="post" enctype="multipart/form-data">
+<h2 class="page-title">Добавить новую запись</h2>
+
+<form method="POST" enctype="multipart/form-data" class="observation-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Сохранить</button>
+    <button type="submit" class="btn-add">Сохранить</button>
 </form>
+
+<a href="{% url 'observations_list' %}" class="btn-back">← Назад к дневнику</a>
 {% endblock %}

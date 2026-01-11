@@ -37,10 +37,27 @@ def prepare_heatmap_matrix(days):
 
 
 def generate_hourly_heatmap(df):
-    plt.figure(figsize=(10, len(df) * 0.5))
+    plt.figure(figsize=(10, max(6, len(df) * 0.5)))
 
-    ax = sns.heatmap(df, cmap="YlGnBu", annot=True, fmt="d", cbar=True,
-                     linewidths=0.5, linecolor="gray")
+    cmap = "RdYlGn"
+
+    vmin = 0
+    vmax = 100
+
+    ax = sns.heatmap(df, cmap=cmap, annot=True, fmt="d", cbar=True,
+                     linewidths=0.5, linecolor="gray", vmin=vmin, vmax=vmax)
+
+    cbar = ax.collections[0].colorbar
+    cbar.set_label("Качество неба", color="white", fontsize=12)
+    cbar.ax.tick_params(colors='white')
+    cbar.ax.yaxis.label.set_color('white')
+
+    cbar.ax.text(1.5, 1.02, 'Отлично', color='white',
+                 transform=cbar.ax.transAxes, ha='left', va='bottom', fontsize=10)
+    cbar.ax.text(1.5, 0.5, 'Средне', color='white',
+                 transform=cbar.ax.transAxes, ha='left', va='center', fontsize=10)
+    cbar.ax.text(1.5, -0.02, 'Плохо', color='white',
+                 transform=cbar.ax.transAxes, ha='left', va='top', fontsize=10)
 
     plt.gcf().patch.set_alpha(0)
     ax.set_facecolor("none")
@@ -57,7 +74,8 @@ def generate_hourly_heatmap(df):
     plt.tight_layout()
 
     buffer = BytesIO()
-    plt.savefig(buffer, format="png", transparent=True)
+    plt.savefig(buffer, format="png", transparent=True,
+                bbox_inches='tight', dpi=100)
     plt.close()
     buffer.seek(0)
 
